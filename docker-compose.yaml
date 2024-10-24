@@ -1,0 +1,55 @@
+services:
+  account_service:
+    build:
+      context: .
+      dockerfile: ./account_service/Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: account_service
+      POSTGRES_PORT: 5432
+
+  timetable_service:
+    build:
+      context: .
+      dockerfile: ./timetable_service/Dockerfile
+    ports:
+      - "8083:8080"
+    depends_on:
+      - postgres_db
+
+  hospital_service:
+    build:
+      context: .
+      dockerfile: ./hospital_service/Dockerfile
+    ports:
+      - "8082:8080"
+    depends_on:
+      - postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hospital_service
+      POSTGRES_PORT: 5432
+
+  document_service:
+    build:
+      context: .
+      dockerfile: ./document_service/Dockerfile
+    ports:
+      - "8084:8080"
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    container_name: simbir_med_db
+    ports:
+      - "5438:5432"
